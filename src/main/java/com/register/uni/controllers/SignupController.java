@@ -39,30 +39,29 @@ public class SignupController {
     }
 
     @RequestMapping(value = "/sign_up", method = RequestMethod.POST)
-    public ModelAndView post(@ModelAttribute @Valid
-                                 CreateUserForm createUserForm, BindingResult result) {
+    public ModelAndView post(@Valid @ModelAttribute("form")
+                             CreateUserForm form, BindingResult result) {
 
         if (result.hasErrors()) {
             return new ModelAndView("signup");
         }
 
-        String redirectUrl;
-
-        try {
-            User user = userService.create(createUserForm);
-            redirectUrl = String.format("redirect:/users/%d", user.getId());
-        } catch (DataIntegrityViolationException exception) {
-            result.reject("email.exists", "Email already exists");
-            return new ModelAndView("signup");
-        }
-
-        return new ModelAndView(redirectUrl);
+        User user = userService.create(form);
+        return new ModelAndView(String.format("redirect:/users/%d", user.getId()));
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public String user(Model model, @PathVariable("id")  Long id) {
+    public String user(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findById(id));
         return "user";
+    }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    public ModelAndView duplicateEmailHandler(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("email.exists", "Email already exists");
+        modelAndView.setViewName("signup");
+        return modelAndView;
     }
 
 }
