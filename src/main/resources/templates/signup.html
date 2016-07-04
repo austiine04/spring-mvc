@@ -11,8 +11,14 @@
     </div>
 
     <form action="#" th:action="@{/sign_up}" th:object="${form}" method="POST">
-        <div><input type="email" th:field="*{email}" placeholder="Email Address" /></div>
-        <div><input type="password" th:field="*{password}" placeholder="Password" /></div>
+        <div>
+            <input type="email" th:field="*{email}" placeholder="Email Address" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Duplicate email address</p>
+        </div>
+        <div>
+            <input type="password" th:field="*{password}" placeholder="Password" />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password mismatch</p>
+        </div>
         <div><input type="password" th:field="*{passwordAgain}" placeholder="Password Again" /></div>
         <div><input type="submit" value="Submit" /></div>
     </form>
