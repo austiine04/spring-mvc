@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class SignupController {
@@ -46,13 +47,13 @@ public class SignupController {
             return new ModelAndView("signup");
         }
 
-        User user = userService.create(form);
-        return new ModelAndView(String.format("redirect:/users/%d", user.getId()));
+        Optional<User> user = userService.create(form);
+        return new ModelAndView(String.format("redirect:/users/%d", user.get().getId()));
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public String user(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findById(id).get());
         return "user";
     }
 

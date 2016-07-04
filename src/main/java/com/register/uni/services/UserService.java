@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 public interface UserService {
-    User create(CreateUserForm createUserForm);
-    User findById(Long userId);
+    Optional<User> create(CreateUserForm createUserForm);
+    Optional<User> findById(Long userId);
     Optional<User> findByEmail(String email);
 }
 
@@ -26,17 +26,17 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(CreateUserForm createUserForm) {
+    public Optional<User> create(CreateUserForm createUserForm) {
         User user = new User();
         user.setEmail(createUserForm.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(createUserForm.getPassword()));
         user.setRole(createUserForm.getRole());
-        return userRepository.save(user);
+        return Optional.ofNullable(userRepository.save(user));
     }
 
     @Override
-    public User findById(Long userId) {
-        return userRepository.findOne(userId);
+    public Optional<User> findById(Long userId) {
+        return Optional.ofNullable(userRepository.findOne(userId));
     }
 
     @Override
