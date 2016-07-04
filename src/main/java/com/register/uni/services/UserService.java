@@ -4,6 +4,7 @@ import com.register.uni.forms.CreateUserForm;
 import com.register.uni.models.User;
 import com.register.uni.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 public interface UserService {
@@ -25,7 +26,7 @@ class UserServiceImpl implements UserService {
     public User create(CreateUserForm createUserForm) {
         User user = new User();
         user.setEmail(createUserForm.getEmail());
-        user.setPassword(createUserForm.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(createUserForm.getPassword()));
         user.setRole(createUserForm.getRole());
         return userRepository.save(user);
     }
