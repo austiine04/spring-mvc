@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 public interface UserService {
     User create(CreateUserForm createUserForm);
     User findById(Long userId);
+    Optional<User> findByEmail(String email);
 }
 
 @Service
@@ -34,5 +37,10 @@ class UserServiceImpl implements UserService {
     @Override
     public User findById(Long userId) {
         return userRepository.findOne(userId);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findOneByEmail(email);
     }
 }

@@ -4,6 +4,8 @@ import com.register.uni.models.User;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class CreateUserForm {
     @NotEmpty
@@ -12,6 +14,6 @@ public class CreateUserForm {
     private String password;
     @NotEmpty
     private String passwordAgain;
-    @NotEmpty
+    @NotNull
     private User.Role role = User.Role.STUDENT;
 }
