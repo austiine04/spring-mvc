@@ -31,7 +31,7 @@ public class CreateUserFormValidator implements Validator {
 
     private void validateEmail(Errors errors, CreateUserForm form) {
         if (userService.findByEmail(form.getEmail()).isPresent()) {
-            errors.rejectValue("email", "A user with this email address already exists");
+            errors.rejectValue("email", "email.duplicate");
         }
     }
 
