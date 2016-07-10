@@ -11,7 +11,8 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView get(@RequestParam(name="error", defaultValue = "") String error) {
-        ModelAndView login = new ModelAndView("login");
-        return login;
+        ModelAndView loginModel = new ModelAndView("login");
+        loginModel.addObject("error", error);
+        return loginModel;
     }
 }
