@@ -6,5 +6,6 @@
 </head>
 <body>
     <p th:text="'Hi ' + ${loggedInUser.username}" />
+    <a th:href="@{/logout}">Logout</a>
 </body>
 </html>
